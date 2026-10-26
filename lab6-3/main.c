@@ -85,6 +85,11 @@ void AdcRead(uint32_t samples[])
         ADCSequenceDataGet(ADC0_BASE, 0, samples);
 }
 
+//*****************************************************************************
+//
+// Retrieve the analog values of the accelerometer every 20ms and add to queue.
+//
+//*****************************************************************************
 void Accelerometer_task(void *pvParameters){
         const TickType_t xDelay = 20 / portTICK_PERIOD_MS; // 20 ms delay
         uint32_t samples[6];
@@ -103,6 +108,11 @@ void Accelerometer_task(void *pvParameters){
         
 }
 
+//*****************************************************************************
+//
+// Retrieve the analog values of the joystick every 10ms and add to queue.
+//
+//*****************************************************************************
 void Joystick_task(void *pvParameters){    
         const TickType_t xDelay = 10 / portTICK_PERIOD_MS; // 10 ms delay    
         uint32_t samples[6];
@@ -119,6 +129,11 @@ void Joystick_task(void *pvParameters){
         }
 }
 
+//*****************************************************************************
+//
+// Retrieve the analog values of the microphone every 5ms and add to queue.
+//
+//*****************************************************************************
 void microphone_task(void *pvParameters){
         const TickType_t xDelay = 5 / portTICK_PERIOD_MS; // 5 ms delay
         uint32_t samples[6];
@@ -134,6 +149,11 @@ void microphone_task(void *pvParameters){
         }
 }
 
+//*****************************************************************************
+//
+// Reads all messages in the queues, calculates average and outputs via UART.
+//
+//*****************************************************************************
 void gatekeeper(void *pvParameters){
         Queues *queues = (Queues *)pvParameters;
         char mic_string[100];
@@ -204,6 +224,11 @@ void gatekeeper(void *pvParameters){
         }
 }
 
+//*****************************************************************************
+//
+// Setup the queues, init the adc and serial com and create needed tasks.
+//
+//*****************************************************************************
 int main(void) {
         SysCtlClockFreqSet(SYSCTL_XTAL_25MHZ | SYSCTL_OSC_MAIN | SYSCTL_USE_PLL | SYSCTL_CFG_VCO_480, SYSTEM_CLOCK);
 

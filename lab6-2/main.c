@@ -12,6 +12,11 @@
 
 char counter_string[100];
 
+//*****************************************************************************
+//
+// Show the number of inputted characters for 10s after a button press.
+//
+//*****************************************************************************
 static void Button_Press(void *pvParameters) {
         const TickType_t xDelay = 50 / portTICK_PERIOD_MS; // 50 ms delay
         uint32_t timestamp_ms_left = xTaskGetTickCount() * portTICK_PERIOD_MS;
@@ -38,6 +43,12 @@ static void Button_Press(void *pvParameters) {
         }      
 }
 
+//*****************************************************************************
+//
+// Output the last 15 characters recieved by the UART back to the serial com.
+// Also shows the amount of inputted chars if button has been activated.
+//
+//*****************************************************************************
 void echo_echo(void *pvParameters){
         const TickType_t xDelay = 50 / portTICK_PERIOD_MS; // 50 ms delay
         TickType_t xLastWakeTime = xTaskGetTickCount();
@@ -57,7 +68,11 @@ void echo_echo(void *pvParameters){
         }
 }
 
-
+//*****************************************************************************
+//
+// Setup button, serial com and create needed tasks.
+//
+//*****************************************************************************
 int main(void) {
         SysCtlClockFreqSet(SYSCTL_XTAL_25MHZ | SYSCTL_OSC_MAIN | SYSCTL_USE_PLL |
                                 SYSCTL_CFG_VCO_480, SYSTEM_CLOCK);

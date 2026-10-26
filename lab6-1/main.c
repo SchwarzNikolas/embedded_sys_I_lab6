@@ -19,6 +19,14 @@ SemaphoreHandle_t SemCountingFull;
 SemaphoreHandle_t SemCountingEmpty;
 SemaphoreHandle_t SemBinary;
 
+//*****************************************************************************
+//
+// Task which adds items to the shared buffer.
+// Each task has to take a counting semaphore for empty slots to be able to
+// start their work. It then locks the shared resource and after it's work is 
+// done it releases the shared resource and gives a "full" counting semaphore.
+//
+//*****************************************************************************
 static void producer(void *pvParameters) {
         const TickType_t xDelay = pdMS_TO_TICKS(100); // 100 ms delay
         
@@ -42,6 +50,14 @@ static void producer(void *pvParameters) {
         }
 }
 
+//*****************************************************************************
+//
+// Task which removes items from the shared buffer.
+// Each task has to take a counting semaphore for full slots to be able to
+// start their work. It then locks the shared resource and after it's work is 
+// done it releases the shared resource and gives a "empty" counting semaphore.
+//
+//*****************************************************************************
 static void consumer(void *pvParameters) {
         const TickType_t xDelay = pdMS_TO_TICKS(500); // 500ms delay
 
@@ -65,7 +81,11 @@ static void consumer(void *pvParameters) {
         }
 }
 
-
+//*****************************************************************************
+//
+// Setup serial com, init the semaphores and create the tasks.
+//
+//*****************************************************************************
 int main(void) {
         SysCtlClockFreqSet(SYSCTL_XTAL_25MHZ | SYSCTL_OSC_MAIN | SYSCTL_USE_PLL | SYSCTL_CFG_VCO_480, SYSTEM_CLOCK);
         UARTinit(SYSTEM_CLOCK);
